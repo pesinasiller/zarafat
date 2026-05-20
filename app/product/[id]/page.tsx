@@ -1,22 +1,23 @@
 "use client";
 import { client } from "@/sanity/lib/client";
-import { useEffect, useState } from "react";
 
+import { use, useEffect, useState } from "react";
 function getProduct(id: string) {
   return client.fetch('*[_type == "product" && _id == $id][0]', {
-    id: "2b24d642-c547-48a8-884a-f4a3de6eee63",
+    id
   });
 }
 
-export default async function ProductDetailsPage({ params }) {
+export default function ProductDetailsPage({ params }) {
+  const { id } = use(params);
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    getProduct(params.id).then((product) => {
+    getProduct(id).then((product) => {
       console.log("Product:", product);
       setProduct(product);
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
