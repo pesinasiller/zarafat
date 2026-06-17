@@ -21,5 +21,13 @@ export const productType = defineType({
       type: "number",
       validation: (Rule) => Rule.positive().precision(2),
     }),
+    defineField({
+      name: "image",
+      title: "Image of the product",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
   ],
 });
