@@ -1,0 +1,29 @@
+.posts {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 4rem 1.25rem;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+}
+
+@media (max-width: 600px) {
+  .posts {
+    padding: 3rem 1rem;
+
+    &__title {
+      font-size: 1.6rem;
+    }
+  }
+}

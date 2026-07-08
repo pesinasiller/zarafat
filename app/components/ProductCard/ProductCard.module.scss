@@ -1,0 +1,135 @@
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(43, 33, 24, 0.14);
+  }
+
+  &__image-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover &__image {
+    transform: scale(1.05);
+  }
+
+  &__body {
+    padding: 1.1rem 1.25rem 1.4rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  &__description {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+  }
+
+  &__price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-price);
+  }
+
+  &__arrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    opacity: 0.7;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+  }
+
+  &:hover &__arrow {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+
+  &__stock-badge {
+    align-self: flex-start;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: black;
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &--out-of-stock {
+    opacity: 0.8;
+    border-style: dashed;
+
+    &:hover {
+      transform: none;
+      box-shadow: var(--shadow-card);
+    }
+
+    .product-card__image {
+      filter: grayscale(100%);
+    }
+
+    .product-card__arrow {
+      opacity: 0.45;
+      transform: none;
+    }
+  }
+
+  &--added-to-cart {
+    border: 5px solid red;
+    &:hover {
+      transform: none;
+      box-shadow: var(--shadow-card);
+    }
+    .product-card__arrow {
+      opacity: 0.45;
+      transform: none;
+    }
+  }
+}

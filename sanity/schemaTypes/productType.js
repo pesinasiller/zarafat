@@ -29,5 +29,10 @@ export const productType = defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: "stock",
+      type: "number",
+      validation: (Rule) => Rule.positive().integer(),
+    }),
   ],
 });

@@ -1,13 +1,11 @@
 "use client";
 import { client } from "@/sanity/lib/client";
-import CircularProgress from "@mui/material/CircularProgress";
 import { urlFor } from "@/sanity/lib/image";
-
 import { use, useEffect, useState } from "react";
+import styles from "./page.module.scss";
+
 function getProduct(id: string) {
-  return client.fetch('*[_type == "product" && _id == $id][0]', {
-    id,
-  });
+  return client.fetch('*[_type == "product" && _id == $id][0]', { id });
 }
 
 export default function ProductDetailsPage({ params }) {
@@ -15,45 +13,72 @@ export default function ProductDetailsPage({ params }) {
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    getProduct(id).then((product) => {
-      console.log("Product:", product);
-      setProduct(product);
-    });
+    getProduct(id).then((data) => setProduct(data));
   }, [id]);
 
   if (Object.keys(product).length === 0) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <p className="text-lg text-zinc-700 dark:text-zinc-300">
-          <CircularProgress aria-label="Loading…" />
-        </p>
+      <div className={styles["product-page"]}>
+        <div className={styles["product-page__loading"]}>
+          <div
+            className={styles["product-page__spinner"]}
+            role="status"
+            aria-label="Loading…"
+          />
+          <span>Loading product…</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <div className="w-full max-w-3xl rounded-3xl border border-zinc-200 bg-white p-8 shadow-xl shadow-zinc-900/5 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white">
-        <h1 className="ml-4 text-4xl font-semibold">{product?.name}</h1>
-        <p className="mb-6 text-lg leading-8 text-zinc-700 dark:text-zinc-300">
-          {product?.description}
-        </p>
+    <div className={styles["product-page"]}>
+      <div className={styles["product-page__card"]}>
         {product?.image && (
-          <div className="mb-6">
+          <div className={styles["product-page__image-wrapper"]}>
             <img
               src={urlFor(product.image).url()}
               alt={product.name}
-              className="w-full rounded-lg"
+              className={styles["product-page__image"]}
             />
           </div>
         )}
-        <div className="space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
-          <p>
-            <span className="font-semibold">Price:</span> {product?.price}
-          </p>
-          <p>
-            <span className="font-semibold">Product ID:</span> {product?._id}
-          </p>
+
+        <div className={styles["product-page__body"]}>
+          <span className={styles["product-page__badge"]}>
+            Traditional Craft
+          </span>
+
+          <h1 className={styles["product-page__title"]}>{product?.name}</h1>
+
+          {product?.description && (
+            <p className={styles["product-page__description"]}>
+              {product.description}
+            </p>
+          )}
+
+          <hr className={styles["product-page__divider"]} />
+
+          <div className={styles["product-page__meta"]}>
+            <div className={styles["product-page__meta-row"]}>
+              <span className={styles["product-page__meta-label"]}>Price</span>
+              <span className={styles["product-page__meta-price"]}>
+                {product?.price ? `$${product.price}` : "—"}
+              </span>
+            </div>
+            <div className={styles["product-page__meta-row"]}>
+              <span className={styles["product-page__meta-label"]}>
+                Product ID
+              </span>
+              <span className={styles["product-page__meta-value"]}>
+                {product?._id}
+              </span>
+            </div>
+          </div>
+
+          <button className={styles["product-page__btn-primary"]} type="button">
+            Add to cart
+          </button>
         </div>
       </div>
     </div>
