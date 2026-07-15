@@ -2,6 +2,7 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import styles from "./ProductCard.module.scss";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 type ProductCardData = {
   _id: string;
@@ -18,6 +19,15 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state);
+  console.log({ cart });
+  const handleAddToCart = (product) => {
+    console.log({ product });
+    setAddedToCart(true);
+    dispatch({ type: "ADD_TO_CART", payload: product });
+  };
 
   const isOutOfStock = product.stock === 0;
 
@@ -60,14 +70,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             className={styles["product-card__add-to-cart-button"]}
             onClick={(e) => {
               e.preventDefault();
-              setAddedToCart(true);
+              handleAddToCart(product);
             }}
-            disabled={isOutOfStock || addedToCart}
+            // disabled={isOutOfStock || addedToCart}
           >
             {addedToCart ? "Added" : "Add to Cart"}
           </button>
 
           <span className={styles["product-card__arrow"]}>Ver →</span>
+          <div>
+            <button onClick={() => dispatch({ type: "INC" })}>+</button>
+            <button onClick={() => dispatch({ type: "DEC" })}>-</button>
+          </div>
         </div>
       </div>
     </Link>

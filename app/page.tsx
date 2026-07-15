@@ -1,5 +1,6 @@
 "use client";
 
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import styles from "./page.module.scss";
@@ -10,6 +11,10 @@ async function getProducts() {
 }
 
 export default function Home() {
+  const count = useSelector((s) => s.count);
+  const cart = useSelector((state) => state.productsOnCart);
+  const dispatch = useDispatch();
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -19,7 +24,11 @@ export default function Home() {
   if (products.length === 0) {
     return (
       <div className={styles["catalog__loading"]}>
-        <div className={styles["catalog__spinner"]} role="status" aria-label="Loading…" />
+        <div
+          className={styles["catalog__spinner"]}
+          role="status"
+          aria-label="Loading…"
+        />
         <span>Loading products…</span>
       </div>
     );
@@ -29,7 +38,16 @@ export default function Home() {
     <>
       <nav className={styles["catalog__navbar"]}>
         <span className={styles["catalog__navbar-brand"]}>زرافت · Zarafat</span>
-        <span className={styles["catalog__navbar-tagline"]}>Traditional Afghan Crafts</span>
+        <span className={styles["catalog__navbar-tagline"]}>
+          Traditional Afghan Crafts
+        </span>
+
+        <div>
+          <h1>{count}</h1>
+          <span>Products in cart: {cart.length}</span>
+          <button onClick={() => dispatch({ type: "INC" })}>+</button>
+          <button onClick={() => dispatch({ type: "DEC" })}>-</button>
+        </div>
       </nav>
 
       <section className={styles["catalog__hero"]}>
@@ -37,7 +55,8 @@ export default function Home() {
           Handmade with <span>Afghan heritage</span>
         </h1>
         <p className={styles["catalog__hero-subtitle"]}>
-          Discover authentic traditional products crafted by local artisans across Afghanistan.
+          Discover authentic traditional products crafted by local artisans
+          across Afghanistan.
         </p>
       </section>
 
